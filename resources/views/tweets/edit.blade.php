@@ -8,7 +8,7 @@
                 <div class="card-header">Update</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('tweets.update', ['tweets' => $tweets]) }}">
+                    <form method="POST" action="{{ route('tweets.update', $tweets -> id) }}">
                         @csrf
                         @method('PUT')
 

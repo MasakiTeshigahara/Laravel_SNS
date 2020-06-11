@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Favorite extends Model
 {
+    //デフォルトでTimestampが設定されているの拒否する実行
     public $timestamps = false;
 
     // いいねしているかどうかの判定処理

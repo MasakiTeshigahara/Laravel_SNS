@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\softDeletes;
 
 class Tweet extends Model
 {
+    //論理削除機能（削除してもDBに残るシステム上削除したとみなす機能）
     use SoftDeletes;
 
     /**
@@ -14,6 +15,8 @@ class Tweet extends Model
      *
      * @var array
      */
+
+     //テキストを更新でる処理
     protected $fillable = [
         'text'
     ];

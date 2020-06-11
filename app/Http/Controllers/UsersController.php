@@ -17,9 +17,11 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+     //ユーザを取得するgetAllUsers()というメソッドにログインしているユーザIDを引数で渡しています。
+    //Modelから返ってきた結果をViewに返します。
+    public function index(User $user)
     {
-        $user = new User;
         $all_users = $user->getAllUsers(auth()->user()->id);
 
         return view('users.index', [
@@ -56,7 +58,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
         return view('users.edit', ['user' => $user]);
     }
@@ -68,7 +70,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
         $data = $request->all();
         $validator = Validator::make($data, [

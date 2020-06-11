@@ -15,6 +15,8 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+     //登録・更新できる処理を行う
     protected $fillable = [
         'screen_name',
         'name',
@@ -23,11 +25,12 @@ class User extends Authenticatable
         'password'
     ];
 
+    //リレーションの親子関係の設定
     public function followers()
     {
         return $this->belongsToMany(self::class, 'followers', 'followed_id', 'following_id');
     }
-
+    //リレーションの親子関係の設定
     public function follows()
     {
         return $this->belongsToMany(self::class, 'followers', 'following_id', 'followed_id');

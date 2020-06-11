@@ -12,6 +12,7 @@ class TweetsController extends Controller
 {
     public function index(Tweet $tweet, Follower $follower)
     {
+        //一覧表示
         $user = auth()->user();
         $follow_ids = $follower->followingIds($user->id);
         $following_ids = $follow_ids->pluck('followed_id')->toArray();
@@ -24,6 +25,7 @@ class TweetsController extends Controller
         ]);
     }
 
+    //新規ツイート入力画面
     public function create()
     {
         $user = auth()->user();
@@ -33,6 +35,8 @@ class TweetsController extends Controller
         ]);
     }
 
+
+    //新規ツイート投稿処理
     public function store(Request $request, Tweet $tweet)
     {
         $user = auth()->user();
@@ -48,6 +52,7 @@ class TweetsController extends Controller
         return redirect('tweets');
     }
 
+    //ツイート詳細画面
     public function show(Tweet $tweet, Comment $comment)
     {
         $user = auth()->user();
@@ -61,6 +66,7 @@ class TweetsController extends Controller
         ]);
     }
 
+    //ツイート編集画面
     public function edit(Tweet $tweet)
     {
         $user = auth()->user();
@@ -76,6 +82,7 @@ class TweetsController extends Controller
         ]);
     }
 
+    //ツイート編集処理
     public function update(Request $request, Tweet $tweet)
     {
         $data = $request->all();
@@ -89,6 +96,7 @@ class TweetsController extends Controller
         return redirect('tweets');
     }
 
+    //ツイート削除処理
     public function destroy(Tweet $tweet)
     {
         $user = auth()->user();
