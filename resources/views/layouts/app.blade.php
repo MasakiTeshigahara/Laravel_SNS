@@ -59,16 +59,19 @@
                                     <img src="{{ asset('storage/profile_image/' .auth()->user()->profile_image) }}" class="rounded-circle" width="50" height="50">
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="{{ url('users/' .auth()->user()->id) }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         {{ auth()->user()->name }} <span class="caret"></span>
                                     </a>
 
+
+                                    <li class="nav-item mr-5">
+                                    <a href="{{ route('logout') }}" class="btn btn-md btn-primary">ログアウト</a>
+                                </li>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                         <a href="{{ url('users/' .auth()->user()->id) }}" class="dropdown-item">プロフィール</a>
-                                        <a href="{{ route('logout') }}" class="dropdown-item"
-                                        onclick="event.preventDefault();
+                                        <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
                                                         document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
+                                            {{ route('logout') }}
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

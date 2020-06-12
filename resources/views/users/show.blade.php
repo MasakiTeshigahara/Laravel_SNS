@@ -20,14 +20,14 @@
                                     <a href="{{ url('users/' .$user->id .'/edit') }}" class="btn btn-primary">プロフィールを編集する</a>
                                 @else
                                     @if ($is_following)
-                                        <form action="{{ route('unfollow', ['id' => $user->id]) }}" method="POST" class="mb-2">
+                                        <form action="{{ route('unfollow', $user->id) }}" method="POST" class="mb-2">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
 
                                             <button type="submit" class="btn btn-danger">フォロー解除</button>
                                         </form>
                                     @else
-                                        <form action="{{ route('follow', ['id' => $user->id]) }}" method="POST" class="mb-2">
+                                        <form action="{{ route('follow', $user->id) }}" method="POST" class="mb-2">
                                             {{ csrf_field() }}
 
                                             <button type="submit" class="btn btn-primary">フォローする</button>
@@ -93,7 +93,7 @@
                                 </div>
                             @endif
 
-                            <!-- ここから -->
+                            
                             <div class="mr-3 d-flex align-items-center">
                                 <a href="{{ url('tweets/' .$timeline->id) }}"><i class="far fa-comment fa-fw"></i></a>
                                 <p class="mb-0 text-secondary">{{ count($timeline->comments) }}</p>
@@ -116,7 +116,7 @@
                                 @endif
                                 <p class="mb-0 text-secondary">{{ count($timeline->favorites) }}</p>
                             </div>
-                            <!-- ここまで -->
+                            
 
                         </div>
                     </div>

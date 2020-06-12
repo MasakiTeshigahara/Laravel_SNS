@@ -142,4 +142,6 @@ class UsersController extends Controller
             'follower_count' => $follower_count
         ]);
     }
+
+    
 }

@@ -21,8 +21,14 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+//ログアウト
+Route::get('/logout','Auth\LoginController@__construct');
+
 //ログイン状態
 Route::group(['middleware' => 'auth'], function() {
+
+    //ログアウト
+    Route::get('/logout','Auth\LoginController@__construct');
 
     //ユーザ関連　一覧、詳細、編集、更新ができる設定
     Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'edit', 'update']]);
