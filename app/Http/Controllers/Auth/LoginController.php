@@ -39,10 +39,5 @@ class LoginController extends Controller
         $this->middleware('guest')->except('register');
     }
 
-    public function logout(Request $request)
-{
-    $this->performLogout($request);
-    return redirect()->route('/home'); // ここを好きな遷移先に変更する。
-}
-
+    
 }

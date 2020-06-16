@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Tweet;
 use App\Models\Follower;
@@ -143,5 +144,18 @@ class UsersController extends Controller
         ]);
     }
 
+    public function getLogout () {
+        $user = Auth::user();
     
+        Auth::logout(); // ログアウト、update処理が行われる。
+        if ($user -> RememberToken){
+            $user->rememberToken()->delete(); // Itemが削除される。
+        $user->delete(); // ユーザが削除される。
+    }
+    else
+        return redirect("/");
+    }
+
 }
+    
+    

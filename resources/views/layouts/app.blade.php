@@ -7,7 +7,7 @@
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ config('app.name', 'Laravel_SNS') }}</title>
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}"></script>
@@ -26,7 +26,7 @@
             <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
                 <div class="container">
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'Laravel_SNS') }}
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                         <span class="navbar-toggler-icon"></span>
@@ -64,9 +64,8 @@
                                     </a>
 
 
-                                    <li class="nav-item mr-5">
-                                    <a href="{{ route('logout') }}" class="btn btn-md btn-primary">ログアウト</a>
-                                </li>
+                                    <a href="{{ route('logout') }}"><i class="dropdown-item"></i>ログアウト</a>
+
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                         <a href="{{ url('users/' .auth()->user()->id) }}" class="dropdown-item">プロフィール</a>
                                         <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();
