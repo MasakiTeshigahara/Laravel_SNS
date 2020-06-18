@@ -30,6 +30,7 @@ class UsersController extends Controller
         ]);
     }
 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -110,6 +111,8 @@ class UsersController extends Controller
         }
     }
 
+
+
     // フォロー解除
     public function unfollow(User $user)
     {
@@ -122,6 +125,9 @@ class UsersController extends Controller
             return back();
         }
     }
+
+    
+   
 
     public function show(User $user, Tweet $tweet, Follower $follower)
     {
@@ -156,6 +162,16 @@ class UsersController extends Controller
         return redirect("/");
     }
 
+    public function following(Follower $follower)
+    {
+        $follower = auth()->user();
+        // フォローユーザーid取得
+        $all_users = $user->getAllUsers($follower->isFollowing($user->id));
+        //users/index.bladeで表示処理
+        return view('users.index', [
+            'all_users'  => $all_users
+        ]);
+
 }
     
-    
+}

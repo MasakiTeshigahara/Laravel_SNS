@@ -21,12 +21,13 @@ Auth::routes();
 
 Route::get('/home', 'TweetsController@index')->name('home');
 
-//ログアウト
-Route::get('/logout',['uses' => 'UsersController@getLogout','as' => 'user.logout']);
 
 //ログイン状態
 Route::group(['middleware' => 'auth'], function() {
     
+    //ログアウト
+    Route::get('/logout',['uses' => 'UsersController@getLogout','as' => 'user.logout']);
+
 
     //ユーザ関連　一覧、詳細、編集、更新ができる設定
     Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'edit', 'update']]);
@@ -43,5 +44,9 @@ Route::group(['middleware' => 'auth'], function() {
 
       // いいね関連
     Route::resource('favorites', 'FavoritesController', ['only' => ['store', 'destroy']]);
+
+    // フォロー一覧
+    Route::resource('/ollowing', 'UsersController@following');
+
 
 });
