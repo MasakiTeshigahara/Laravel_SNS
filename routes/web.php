@@ -40,13 +40,13 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('tweets', 'TweetsController', ['only' => ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']]);
 
       // コメント関連
-      Route::resource('comments', 'CommentsController', ['only' => ['store']]);
+    Route::resource('comments', 'CommentsController', ['only' => ['store']]);
 
       // いいね関連
     Route::resource('favorites', 'FavoritesController', ['only' => ['store', 'destroy']]);
 
     // フォロー一覧
-    Route::resource('/ollowing', 'UsersController@following');
+    Route::get('following', 'UsersController@following');
 
 
 });

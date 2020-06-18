@@ -41,6 +41,15 @@ class User extends Authenticatable
         return $this -> Where('id', '<>', $user_id)->paginate(5);
     }
 
+    /**
+     * usersテーブルから、引数で渡されたユーザーIDに紐づくユーザー情報を取得する
+     * @param array $user_ids ユーザーIDの配列
+     * @return object DB取得結果
+     */
+    public function getUsers(array $user_ids)
+    {
+        return $this -> WhereIn('id',  $user_ids)->paginate(5);
+    }
     // フォローする
     public function follow(Int $user_id) 
     {
