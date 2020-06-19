@@ -78,7 +78,7 @@
   </button>
   <div class="dropdown-menu" aria-labelledby="dropdown1">
     <a class="dropdown-item" href="{{ url('users/' .auth()->user()->id) }}">プロフィール</a>
-    <a class="dropdown-item" href="{{ url('followAll') }}">フォロー</a>
+    <a class="dropdown-item" href="{{ url('following') }}">フォロー</a>
     <a class="dropdown-item" href="{{ route('logout') }}">フォロワー</a>
     <a class="dropdown-item" href="{{ route('logout') }}">ログアウト</a>
   </div>
