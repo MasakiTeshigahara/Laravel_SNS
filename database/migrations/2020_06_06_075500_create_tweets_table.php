@@ -19,10 +19,12 @@ class CreateTweetsTable extends Migration
             $table->string('text')->comment('本文');
             $table->softDeletes();
             $table->timestamps();
+            $table->string('file');
 
             $table->index('id');
             $table->index('user_id');
             $table->index('text');
+            $table->index('file');
 
             $table->foreign('user_id')
                 ->references('id')

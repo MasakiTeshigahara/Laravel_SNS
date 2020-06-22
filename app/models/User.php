@@ -16,13 +16,9 @@ class User extends Authenticatable
      * @var array
      */
 
-     //登録・更新できる処理を行う
-    protected $fillable = [
-        'screen_name',
-        'name',
-        'profile_image',
-        'email',
-        'password'
+    //登録・更新できる処理を行う
+    protected $guarded = [
+        'id'
     ];
 
     //リレーションの親子関係の設定
@@ -38,20 +34,15 @@ class User extends Authenticatable
 
     public function getAllUsers(Int $user_id)
     {
-        return $this -> Where('id', '<>', $user_id)->paginate(5);
+        return $this->Where('id', '<>', $user_id)->paginate(5);
     }
-
-    /**
-     * usersテーブルから、引数で渡されたユーザーIDに紐づくユーザー情報を取得する
-     * @param array $user_ids ユーザーIDの配列
-     * @return object DB取得結果
-     */
     public function getUsers(array $user_ids)
     {
         return $this -> WhereIn('id',  $user_ids)->paginate(5);
     }
+
     // フォローする
-    public function follow(Int $user_id) 
+    public function follow(Int $user_id)
     {
         return $this->follows()->attach($user_id);
     }
@@ -63,19 +54,18 @@ class User extends Authenticatable
     }
 
     // フォローしているか
-    public function isFollowing(Int $user_id) 
+    public function isFollowing(Int $user_id)
     {
-        return (boolean) $this->follows()->where('followed_id', $user_id)->first(['id']);
-
+        return (bool) $this->follows()->where('followed_id', $user_id)->first(['id']);
     }
 
     // フォローされているか
-    public function isFollowed(Int $user_id) 
+    public function isFollowed(Int $user_id)
     {
-        return (boolean) $this->followers()->where('following_id', $user_id)->first(['id']);
+        return (bool) $this->followers()->where('following_id', $user_id)->first(['id']);
     }
 
-    public function updateProfile(Array $params)
+    public function updateProfile(array $params)
     {
         if (isset($params['profile_image'])) {
             $file_name = $params['profile_image']->store('public/profile_image/');
@@ -85,6 +75,7 @@ class User extends Authenticatable
                     'screen_name'   => $params['screen_name'],
                     'name'          => $params['name'],
                     'profile_image' => basename($file_name),
+                    'profile_text'  => $params['profile_text'],
                     'email'         => $params['email'],
                 ]);
         } else {
@@ -92,13 +83,11 @@ class User extends Authenticatable
                 ->update([
                     'screen_name'   => $params['screen_name'],
                     'name'          => $params['name'],
+                    'profile_text'  => $params['profile_text'],
                     'email'         => $params['email'],
-                ]); 
+                ]);
         }
 
         return;
     }
-
-    
-    
 }

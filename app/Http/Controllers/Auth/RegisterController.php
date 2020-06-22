@@ -52,6 +52,7 @@ class RegisterController extends Controller
             // 追加
             'screen_name' => ['required', 'string', 'max:255', 'unique:users'],
             'name'        => ['required', 'string', 'max:255'],
+            'profile_text' => ['required', 'string', 'max:255'],
             'email'       => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password'    => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -69,6 +70,8 @@ class RegisterController extends Controller
             // 追加
             'screen_name' => $data['screen_name'],
             'name' => $data['name'],
+            'profile_text' => $data['profile_text'],
+            'profile_image' => 'register.jpeg',
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);

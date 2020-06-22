@@ -12,6 +12,7 @@
                             <div class="ml-2 d-flex flex-column">
                                 <p class="mb-0">{{ $user->name }}</p>
                                 <a href="{{ url('users/' .$user->id) }}" class="text-secondary">{{ $user->screen_name }}</a>
+                                <p class="mb-0 text-truncate", style="max-width: 150px;">{{ $user->profile_text }}</p>
                             </div>
                             @if (auth()->user()->isFollowed($user->id))
                                 <div class="px-2">

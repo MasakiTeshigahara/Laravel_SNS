@@ -20,8 +20,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'TweetsController@index')->name('home');
-
-
 //ログイン状態
 Route::group(['middleware' => 'auth'], function() {
     
@@ -40,7 +38,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('tweets', 'TweetsController', ['only' => ['index', 'create', 'store', 'show', 'edit', 'update', 'destroy']]);
 
       // コメント関連
-    Route::resource('comments', 'CommentsController', ['only' => ['store']]);
+      Route::resource('comments', 'CommentsController', ['only' => ['store']]);
 
       // いいね関連
     Route::resource('favorites', 'FavoritesController', ['only' => ['store', 'destroy']]);
@@ -48,5 +46,7 @@ Route::group(['middleware' => 'auth'], function() {
     // フォロー一覧
     Route::get('following', 'UsersController@following');
 
+     // フォワー一覧
+     Route::get('followed', 'UsersController@followed');
 
 });

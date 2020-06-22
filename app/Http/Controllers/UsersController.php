@@ -78,6 +78,7 @@ class UsersController extends Controller
         $validator = Validator::make($data, [
             'screen_name'   => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user->id)],
             'name'          => ['required', 'string', 'max:255'],
+            'profile_text'  => ['required', 'string', 'max:100'],
             'profile_image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'email'         => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)]
         ]);
@@ -179,6 +180,24 @@ class UsersController extends Controller
         return view('users.index', [
             'all_users'  => $all_users
         ]);
+    }
+
+    public function followed(Follower $follower)
+    {
+        $user = auth()->user();
+        $user_ids_arr = [];
+        // followersテーブルからフォローしているユーザーIDデータを取得する
+        $ids = $follower->followingIds($user->id);
+        foreach ($ids as $id){
+            // 取得したユーザーIDデータからIDのみ抜き出し、配列に格納する
+            array_push($user_ids_arr, $id->followed_id);
+        // フォローユーザーid配列を引数に、ユーザー情報を取得する
+        $all_users = $user->getUsers($user_ids_arr);
+        //users/index.bladeで表示処理
+        return view('users.index', [
+            'all_users'  => $all_users
+        ]);
+        }
     }
     
 }
