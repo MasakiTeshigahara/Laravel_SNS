@@ -19,7 +19,7 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     //ユーザを取得するgetAllUsers()というメソッドにログインしているユーザIDを引数で渡しています。
+    //ユーザを取得するgetAllUsers()というメソッドにログインしているユーザIDを引数で渡しています。
     //Modelから返ってきた結果をViewに返します。
     public function index(User $user)
     {
@@ -52,7 +52,7 @@ class UsersController extends Controller
         //
     }
 
-    
+
 
     /**
      * Show the form for editing the specified resource.
@@ -85,7 +85,7 @@ class UsersController extends Controller
         $validator->validate();
         $user->updateProfile($data);
 
-        return redirect('users/'.$user->id);
+        return redirect('users/' . $user->id);
     }
 
     /**
@@ -105,7 +105,7 @@ class UsersController extends Controller
         $follower = auth()->user();
         // フォローしているか
         $is_following = $follower->isFollowing($user->id);
-        if(!$is_following) {
+        if (!$is_following) {
             // フォローしていなければフォローする
             $follower->follow($user->id);
             return back();
@@ -120,15 +120,15 @@ class UsersController extends Controller
         $follower = auth()->user();
         // フォローしているか
         $is_following = $follower->isFollowing($user->id);
-        if($is_following) {
+        if ($is_following) {
             // フォローしていればフォローを解除する
             $follower->unfollow($user->id);
             return back();
         }
     }
 
-    
-   
+
+
 
     public function show(User $user, Tweet $tweet, Follower $follower)
     {
@@ -151,16 +151,16 @@ class UsersController extends Controller
         ]);
     }
 
-    public function getLogout () {
+    public function getLogout()
+    {
         $user = Auth::user();
-    
+
         Auth::logout(); // ログアウト、update処理が行われる。
-        if ($user -> RememberToken){
+        if ($user->RememberToken) {
             $user->rememberToken()->delete(); // Itemが削除される。
-        $user->delete(); // ユーザが削除される。
-    }
-    else
-        return redirect("/");
+            $user->delete(); // ユーザが削除される。
+        } else
+            return redirect("/");
     }
 
     public function following(Follower $follower)
@@ -169,35 +169,43 @@ class UsersController extends Controller
         $user_ids_arr = [];
         // followersテーブルからフォローしているユーザーIDデータを取得する
         $ids = $follower->followingIds($user->id);
-        foreach ($ids as $id){
+        foreach ($ids as $id) {
             // 取得したユーザーIDデータからIDのみ抜き出し、配列に格納する
             array_push($user_ids_arr, $id->followed_id);
         }
-
-        // フォローユーザーid配列を引数に、ユーザー情報を取得する
-        $all_users = $user->getUsers($user_ids_arr);
-        //users/index.bladeで表示処理
-        return view('users.index', [
-            'all_users'  => $all_users
-        ]);
+        //$user_ids_arrが空欄かどうか判定する
+        if (empty($user_ids_arr)) {
+            echo '<center>フォローしているアカウントはいません</center>';
+        } else {
+            // フォローユーザーid配列を引数に、ユーザー情報を取得する
+            $all_users = $user->getUsers($user_ids_arr);
+            //users/index.bladeで表示処理
+            return view('users.index', [
+                'all_users'  => $all_users
+            ]);
+        }
     }
 
     public function followed(Follower $follower)
     {
         $user = auth()->user();
         $user_ids_arr = [];
-        // followersテーブルからフォローしているユーザーIDデータを取得する
+        // followersテーブルからフォローされているユーザーIDデータを取得する
         $ids = $follower->followedIds($user->id);
-        foreach ($ids as $id){
+        foreach ($ids as $id) {
             // 取得したユーザーIDデータからIDのみ抜き出し、配列に格納する
             array_push($user_ids_arr, $id->following_id);
         }
-
-        // フォローユーザーid配列を引数に、ユーザー情報を取得する
-        $all_users = $user->getUsers($user_ids_arr);
-        //users/index.bladeで表示処理
-        return view('users.index', [
-            'all_users'  => $all_users
-        ]);
+        //$user_ids_arrが空欄かどうか判定する
+        if (empty($user_ids_arr)) {
+            echo '<center>フォローされているアカウントはいません</center>';
+        } else {
+            // フォロワーーユーザーid配列を引数に、ユーザー情報を取得する
+            $all_users = $user->getUsers($user_ids_arr);
+            //users/index.bladeで表示処理
+            return view('users.index', [
+                'all_users'  => $all_users
+            ]);
+        }
     }
 }
