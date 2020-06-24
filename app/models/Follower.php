@@ -32,5 +32,11 @@ class Follower extends Model
     {
         return $this->where('following_id', $user_id)->get('followed_id');
     }
+
+    // フォローされているユーザのIDを取得
+    public function followedIds(Int $user_id)
+    {
+        return $this->where('followed_id', $user_id)->get('following_id');
+    }
     
 }

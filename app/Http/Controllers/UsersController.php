@@ -187,17 +187,17 @@ class UsersController extends Controller
         $user = auth()->user();
         $user_ids_arr = [];
         // followersテーブルからフォローしているユーザーIDデータを取得する
-        $ids = $follower->followingIds($user->id);
+        $ids = $follower->followedIds($user->id);
         foreach ($ids as $id){
             // 取得したユーザーIDデータからIDのみ抜き出し、配列に格納する
-            array_push($user_ids_arr, $id->followed_id);
+            array_push($user_ids_arr, $id->following_id);
+        }
+
         // フォローユーザーid配列を引数に、ユーザー情報を取得する
         $all_users = $user->getUsers($user_ids_arr);
         //users/index.bladeで表示処理
         return view('users.index', [
             'all_users'  => $all_users
         ]);
-        }
     }
-    
 }
