@@ -11,13 +11,19 @@
                         <div class="mt-3 d-flex flex-column">
                             <h4 class="mb-0 font-weight-bold">{{ $user->name }}</h4>
                             <span class="text-secondary">{{ $user->screen_name }}</span>
+                            @if ($user->id === Auth::user()->id)
+                                <a href="{{ url('mypage') }}"><img src="/storage/icon/DM_icon.jpeg" ,alt="DMアイコン" ,width="20" height="20"></a>
+                            @else
+                                    <a href="{{ url('messages','30') }}"><img src="/storage/icon/DM_icon.jpeg" ,alt="DMアイコン" ,width="20" height="20"></a>
+                            @endif
+
                         </div>
                     </div>
                     <div class="p-3 d-flex flex-column justify-content-between">
                         <div class="d-flex text-right">
                             <div>
                                 @if ($user->id === Auth::user()->id)
-                                <a href="{{ url('users/' .$user->id .'/edit') }}" ><img src="/storage/icon/configuration_icon.png",alt="ツイート一覧",width="15" height="15"></a>
+                                <a href="{{ url('users/' .$user->id .'/edit') }}"><img src="/storage/icon/configuration_icon.png" ,alt="ツイート一覧" ,width="15" height="15"></a>
                                 @else
                                 @if ($is_following)
                                 <form action="{{ route('unfollow', $user->id) }}" method="POST" class="mb-2">
@@ -37,14 +43,18 @@
                                 @if ($is_followed)
                                 <span class="mt-2 px-1 bg-secondary">フォローされています</span>
                                 @endif
+
+                                
+                                
                                 @endif
                             </div>
-                        </div>
+                　        </div>
                         <div class="d-flex justify-content-end">
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <p class="font-weight-bold">ツイート数</p>
                                 <span>{{ $tweet_count }}</span>
                             </div>
+                            @if ($user->id === Auth::user()->id)
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <a class="font-weight-bold" href="{{ url('following') }}">フォロー数</a>
                                 <span>{{ $follow_count }}</span>
@@ -53,14 +63,23 @@
                                 <a class="font-weight-bold" href="{{ url('followed') }}">フォロワー数</a>
                                 <span>{{ $follower_count }}</span>
                             </div>
-                            
+                            @else
+                            <div class="p-2 d-flex flex-column align-items-center">
+                                <a class="font-weight-bold" >フォロー数</a>
+                                <span>{{ $follow_count }}</span>
+                            </div>
+                            <div class="p-2 d-flex flex-column align-items-center">
+                                <a class="font-weight-bold" >フォロワー数</a>
+                                <span>{{ $follower_count }}</span>
+                            </div>
+                            @endif
                         </div>
                         <div class="mt-3 d-flex flex-column">
-                            <h5 class="mb-0 font-weight-bold">{{  $user->profile_text }}</h5>
-                            </div>
+                            <h5 class="mb-0 font-weight-bold">{{ $user->profile_text }}</h5>
+                        </div>
                     </div>
 
-                    
+
                 </div>
             </div>
         </div>
