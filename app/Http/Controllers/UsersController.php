@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Tweet;
 use App\Models\Follower;
+use App\Models\Board;
 
 class UsersController extends Controller
 {
@@ -130,6 +131,7 @@ class UsersController extends Controller
 
 
 
+
     public function show(User $user, Tweet $tweet, Follower $follower)
     {
         $login_user = auth()->user();
@@ -140,6 +142,27 @@ class UsersController extends Controller
         $follow_count = $follower->getFollowCount($user->id);
         $follower_count = $follower->getFollowerCount($user->id);
 
+
+        $board = '';
+        if($login_user->id != $user->id){
+            $boards = Board::where('s_user_id', $login_user->id)
+            ->where('r_user_id', $user->id)->get();
+            if (count($boards) == 0) {
+                $board = new Board;
+                // s_user_idに自分のid、
+                $board->s_user_id = Auth::user()->id;
+                // r_user_idに相手のidを設定し、
+                $board->r_user_id = $user->id;
+                // Boardテーブルにデータを保存する
+                $board->save();
+                // 保存したデータを取得する
+                Board::where('r_user_id', $user->id)->get();
+                // $boardsにデータを入れる
+                ['board' => $board];
+            }
+            
+        }
+
         return view('users.show', [
             'user'           => $user,
             'is_following'   => $is_following,
@@ -147,7 +170,8 @@ class UsersController extends Controller
             'timelines'      => $timelines,
             'tweet_count'    => $tweet_count,
             'follow_count'   => $follow_count,
-            'follower_count' => $follower_count
+            'follower_count' => $follower_count,
+            'board'  => $board
         ]);
     }
 
