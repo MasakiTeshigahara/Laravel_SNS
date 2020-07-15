@@ -128,7 +128,28 @@ class UsersController extends Controller
         }
     }
 
-
+    private function searchBoard($login_user, $user){
+        $boards = $this->getBoard($login_user->id, $user->id);
+        if(count($boards) == 0){
+            $boards = $this->getBoard($user->id, $login_user->id);
+        }
+        if (count($boards) == 0) {
+            $board = new Board;
+            $board->s_user_id = $login_user->id;
+            $board->r_user_id = $user->id;
+            $board->save();
+            
+            $boards = $this->getBoard($login_user->id, $user->id);
+        } 
+        return $boards[0];
+    }
+    
+    private function getBoard($s_user_id, $r_user_id){
+        return Board::where([
+                ['s_user_id', $s_user_id],
+                ['r_user_id', $r_user_id]
+                ])->get();
+    }
 
 
 
@@ -145,23 +166,9 @@ class UsersController extends Controller
 
         $board = '';
         if($login_user->id != $user->id){
-            $boards = Board::where('s_user_id', $login_user->id)
-            ->where('r_user_id', $user->id)->get();
-            if (count($boards) == 0) {
-                $board = new Board;
-                // s_user_idに自分のid、
-                $board->s_user_id = Auth::user()->id;
-                // r_user_idに相手のidを設定し、
-                $board->r_user_id = $user->id;
-                // Boardテーブルにデータを保存する
-                $board->save();
-                // 保存したデータを取得する
-                Board::where('r_user_id', $user->id)->get();
-                // $boardsにデータを入れる
-                ['board' => $board];
-            }
-            
+            $board = $this->searchBoard($login_user, $user);
         }
+
 
         return view('users.show', [
             'user'           => $user,
